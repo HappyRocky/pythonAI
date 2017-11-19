@@ -23,7 +23,7 @@ def load_data():
     xs = []
     ys = []
     for i in range(1,6):
-        filename = 'cifar-10-batches-py/data_batch_' + str(i)
+        filename = 'F:/myPython/data/cifar-10-python/cifar-10-batches-py/data_batch_' + str(i)
         X, Y = load_CIFAR10_batch(filename)
         xs.append(X)
         ys.append(Y)
@@ -32,7 +32,7 @@ def load_data():
     del xs, ys
     
     # 读取测试集
-    x_test, y_test = load_CIFAR10_batch('cifar-10-batches-py/test_batch')
+    x_test, y_test = load_CIFAR10_batch('F:/myPython/data/cifar-10-python/cifar-10-batches-py/test_batch')
     
     # 十个类别
     classes = ['plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']

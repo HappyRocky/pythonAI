@@ -1,4 +1,6 @@
 import numpy as np
+import numpy.matlib as mat
+from matplotlib import pyplot as plt
 
 # 自定义类型
 student = np.dtype([('name','S20'),  ('age',  'i1'),  ('marks',  'f4')]) 
@@ -110,3 +112,32 @@ print('b=',b,'id(b)=',id(b))
 a[0,0]=-1
 print('a=',a,'id(a)=',id(a))
 print('b=',b,'id(b.T)=',id(b.T))
+
+# 矩阵
+print(mat.zeros((2,3)))
+
+# 数组运算
+a = np.array([[1,2],[3,4]])
+b = np.array([[5,6],[7,8]])
+print('a=',a)
+print('b=',b)
+print('a*b=',np.dot(a,b)) # 点积
+print('matmul(a,b)=',np.matmul(a,b)) # 矩阵相乘
+print('np.vdot(a,b)=',np.vdot(a,b)) # a和b分别伸展成向量，然后点乘
+print('np.inner(a,b)=',np.inner(a,b)) # 内积，a和b可以都是行向量
+print('np.dot(a,b.T)=',np.dot(a,b.T)) # 与上面一行结果相同
+print('det(a)=',np.linalg.det(a)) # 行列式
+print('inv(a)=',np.linalg.inv(a)) # 逆矩阵
+b = np.array([[1],[2]])
+print('solve(a,b)=',np.linalg.solve(a,b)) # ax=b的解，等价于x=a^(-1)*b
+print('solve(a,b)=',np.dot(np.linalg.inv(a),b))
+
+# 画图
+x = np.arange(1,11)
+y = 2 * x + 5
+plt.title('Demo')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.plot(x,y)
+plt.show()
+
