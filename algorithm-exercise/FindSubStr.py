@@ -11,9 +11,8 @@ class FindSubStr:
         for i in range(len(self.source) - len(self.target) + 1):
             for j in range(len(self.target)):
                 if self.source[i + j] != self.target[j]:
-                    match = False
                     break
-            else:
+            else: # 此else对应的是for，表示for循环没有被break过
                 return i
         return -1
 
