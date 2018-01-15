@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 from pandas import DataFrame
 import csv
+import re
+import jieba
+from wordcloud import WordCloud, ImageColorGenerator
+import PIL.Image as Image
 
 def getFriendsInfo():
     # 爬取好友信息，返回json
@@ -87,9 +91,33 @@ def plotArea():
     for xx,yy in zip(np.arange(n),y[:n]):
         plt.text(xx + 0.05, yy + 4, str(yy), ha='center',va='top')
     plt.show()
+    
+def plotWordCloud():
+    # 画出词云
+    siglist = []
+    with open('data.csv','r',encoding='utf-8') as csvfile:
+        read = csv.reader(csvfile,)
+        for i in read:
+            signature = i[5].strip().replace("span","").replace("class","").replace("emoji","")
+            rep = re.compile("1f\d+\w*|[<>/=]")
+            signature = rep.sub("", signature)
+            siglist.append(signature)
+    text = "".join(siglist)
+    wordlist = jieba.cut(text, cut_all=True)
+    word_space_split = " ".join(wordlist)
+    coloring = np.array(Image.open("F:/photos/smile.jpg"))
+    my_wordcloud = WordCloud(background_color="white", max_words=500, 
+                             mask=coloring,max_font_size=50,random_state=42,
+                             scale=4,font_path="C:/Windows/Fonts/simkai.ttf").generate(word_space_split)
+    image_colors = ImageColorGenerator(coloring)
+    plt.imshow(my_wordcloud.recolor(color_func=image_colors))
+    plt.imshow(my_wordcloud)
+    plt.axis("off")
+    plt.show()
 
 #itchat.login()
 #friends = getFriendsInfo()
 #printSexRatio(friends) # 输出男女比例
 #saveData(friends) # 保存到data.csv中
-plotArea()
+#plotArea()
+plotWordCloud()
