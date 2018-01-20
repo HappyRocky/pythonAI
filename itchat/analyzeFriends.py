@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 from pandas import DataFrame
 import csv
-import re
+import re              
 import jieba
 from wordcloud import WordCloud, ImageColorGenerator
 import PIL.Image as Image
@@ -105,7 +105,7 @@ def plotWordCloud():
     text = "".join(siglist)
     wordlist = jieba.cut(text, cut_all=True)
     word_space_split = " ".join(wordlist)
-    coloring = np.array(Image.open("F:/photos/smile.jpg"))
+    coloring = np.array(Image.open("1.jpg"))
     my_wordcloud = WordCloud(background_color="white", max_words=500, 
                              mask=coloring,max_font_size=50,random_state=42,
                              scale=4,font_path="C:/Windows/Fonts/simkai.ttf").generate(word_space_split)
