@@ -17,49 +17,49 @@ class FindSubStr:
         return -1
     
     # 新的方法，O(m) + O(n)
-    def findByDict(self):
+    def findByKMP(self):
         if self.source is None or self.target is None:
             return -1
+        
         '''
-        根据target构造字典
-        如 target = 'Wor'，则构造出的字典为：
-        {'W': [{'o': [{'r': [{}, '1']}, '0']}, '0']}
-        每一个value是一个二维数组，存放着一个字典和0/1，字典内容是下一个字符，0/1表示当前字符是否是最后一个字符
+        根据已有的next_list，求下一个next的值
         '''
-        dic = dict()
-        top = dic
-        for i in range(len(self.target)):
-            if i == len(self.target) - 1: # 到达最后一个字符
-                s = '1'
-            else:
-                s = '0'
-            dic[self.target[i]] = [dict(), s] # 将字符作为key放入到dict中，对应的value是一个二维数组
-            dic = dic[self.target[i]][0] # 将dic深入一层，便于存放下一个字符
-        # 开始搜索
-        dic = top
-        idx = -1 # 匹配到第一个字符的索引
-        i = 0
+        def getNext(self, next_list):
+            idx = len(next_list) - 1 # 当前next_list的最大索引
+            if idx == -1: # next为空，所求为第一个字符的next值，固定为-1
+                return -1
+            k = next_list[idx] # next_list最后一位的值
+            while k != -1:
+                if self.target[idx] == self.target[k]: # 新来的值是否等于最长匹配前后缀后面的那个字符
+                    return k+1
+                k = next_list[k] # 更新最长匹配前后缀的长度
+            return 0
+        
+        # 构造next数组
+        next_list = list()
+        while len(next_list) < len(self.target):
+            next_list.append(getNext(self, next_list))
+        print('next_list:',next_list)
+        
+        # 开始检索
+        i = 0 # source字符串的索引
+        j = 0 # target字符串的索引
         while i < len(self.source):
-            char = self.source[i]
-            if char in dic: # 字符在字典中
-                # 更新idx
-                if idx == -1:
-                    idx = i                
-                # 判断是不是最后一个字符
-                if dic[char][1] == '1':
-                    return idx
-                # 将字典深入一层
-                l = dic[char]
-                dic = l[0]
-            else: # 字符没有在字典中，初始化
-                dic = top
-                if idx != -1: # 上次循环还在字典中
-                    i -= 1 # 下一次循环重新扫描这个字符
-                    idx = -1
-            i += 1
+            if self.source[i] == self.target[j]: # 字符相同，则都往右移一位继续比较
+                i += 1
+                j += 1
+                if j == len(self.target): # target的最后一个字符都匹配到了，则匹配成功
+                    return i - j # 返回匹配字符串的第一个字符的索引，所以需要减去子字符串长度
+            else:
+                j = next_list[j] # 字符不同，按照next_list更新target的索引
+                if j == -1: # 因为next_list[0]=-1，所以说明当前的source字符连target的第一个字符都不匹配，则从source的下一个字符开始检索
+                    j = 0
+                    i += 1
         return -1
-            
+        
 if __name__ == '__main__':
-    S = FindSubStr('HelloWoWWorld','Wor')
+    S = FindSubStr('wwowoworr','woworr')
+    print('source:',S.source)
+    print('target:',S.target)
     print(S.findByCommon())
-    print(S.findByDict())
+    print(S.findByKMP())
