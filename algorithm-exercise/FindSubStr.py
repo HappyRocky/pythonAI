@@ -58,8 +58,8 @@ class FindSubStr:
         return -1
         
 if __name__ == '__main__':
-    S = FindSubStr('wwowoworr','woworr')
-    print('source:',S.source)
+    S = FindSubStr('bababaabd','abaabd')
+    print('source:',S.source) 
     print('target:',S.target)
     print(S.findByCommon())
-    print(S.findByKMP())
+    print(S.findByKMP())  
