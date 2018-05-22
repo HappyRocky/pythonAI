@@ -15,5 +15,6 @@ def sushu(x):
     for i in range(2,x):
         if plist[i]:
             plist[i+1::i] = [0]*len(plist[i+1::i])
+    print(plist)
     return filter(None, plist)
 print(list(sushu(50)))
