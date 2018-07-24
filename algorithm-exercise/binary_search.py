@@ -6,6 +6,9 @@ Created on Mon Jul 23 19:45:28 2018
 
 实现二分查找
 """
+import random
+import time
+import matplotlib.pyplot as plt
 
 def bsearch(values, target):
     '''
@@ -45,13 +48,26 @@ def bsearch_rec(values, target, pre_num):
     return bsearch_rec(values[mid+1:], target, pre_num+mid+1)
 
 if '__main__' == __name__:
-    values = [2,4,5,6,8,12,34,44,64,65]
-    target = 34
-    idx = bsearch(values, target)
-    if idx == -1:
-        print('%d不存在于%s中' % (target, str(values)))
-    else:
-        print('查找成功：values[%d]=%d' % (idx, values[idx]))
     
+    # 验证时间复杂度为O(logn)
+    times = 1000 # 随机取数的次数，方便时间取平均值
+    length_list = list(range(10000, 20000)) # 数组的长度
+    time_list = [0] * len(length_list)
+    for i in range(0, len(length_list)):
+        length = length_list[i]
+        values = list(range(0, length))
+        mean_time = 0
+        for j in range(0, times): # 随机生成times次target，取耗费时间的平均值
+            target = random.randint(values[0], values[-1])
+            
+            # 计算时间
+            time_start = time.time()
+            idx = bsearch(values, target)
+            time_diff = time.time() - time_start
+            
+            mean_time += time_diff
+        #mean_time /= times * 100000
+        time_list[i] = mean_time
+    plt.plot(length_list, time_list, 'r-')
 
 
