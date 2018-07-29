@@ -1,4 +1,3 @@
-from bullet import Bullet
 from bullet_launcher import BulletLauncher
 import pygame
 

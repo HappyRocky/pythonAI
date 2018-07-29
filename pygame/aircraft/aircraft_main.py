@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import pygame
 from sys import exit
-from bullet import Bullet
 from plane import Plane
 
 # 初始化画布
