@@ -24,7 +24,7 @@ class Bullet:
         if self.y < 0:
             return -1
         else:
-            return 0
+            return 1
         
     def show(self, screen):
         '''

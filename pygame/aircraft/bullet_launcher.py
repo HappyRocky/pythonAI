@@ -24,7 +24,7 @@ class BulletLauncher():
         new_bullet_list = []
         for bullet in self.bullet_list:
             result = bullet.move()
-            if result == 0: # move之后仍然在屏幕之内，则保持在list中
+            if result == 1: # move之后仍然在屏幕之内，则保持在list中
                 new_bullet_list.append(bullet)
         self.bullet_list = new_bullet_list  
         
@@ -32,6 +32,7 @@ class BulletLauncher():
         self.time += 1
         if self.time % self.period == 0:
             self.bullet_list.append(Bullet(plane_x, plane_y)) # 在飞机位置增加一颗子弹
+            self.time = 0
             
     def show_bullets(self, screen):
         '''
