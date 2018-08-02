@@ -44,6 +44,22 @@ class EnemyLauncher():
             self.time = 0
             self.period = random.randint(self.period_scope[0], self.period_scope[1])
             
+    def hit(self, bullet_list):
+        '''
+        所有敌机和所有子弹进行判断是否相撞。如果相撞，则子弹与敌机同时消失。
+        '''
+        new_enemy_list = []
+        for enemy in self.enemy_list:
+            has_hit = False # 默认没有相撞
+            for bullet in bullet_list: # 与每个子弹进行判断
+                if enemy.has_hit_bullet(bullet): # 如果撞到了
+                    bullet_list.remove(bullet) # 子弹消失
+                    has_hit = True
+                    break
+            if not has_hit: # 如果没有被撞
+                new_enemy_list.append(enemy) # 加入到新list中
+        self.enemy_list = new_enemy_list
+            
     def show_enemys(self, screen):
         '''
         将敌机显示在屏幕上

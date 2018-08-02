@@ -30,13 +30,14 @@ while True:
     # 飞机及子弹运动
     plane.move(x, y)
     
-    # 飞机及子弹显示
-    plane.show(screen)
-    
     # 敌机运动
     enemy_launcher.move()
     
-    # 敌机显示
+    # 碰撞消失
+    enemy_launcher.hit(plane.bullet_launcher.bullet_list)
+    
+    #  显示
+    plane.show(screen)
     enemy_launcher.show_enemys(screen)
     
     # 刷新

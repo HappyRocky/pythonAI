@@ -41,4 +41,15 @@ class Enemy():
         y = self.y - self.image.get_height() / 2
         # 显示
         screen.blit(self.image, (x, y))
+        
+    def has_hit_bullet(self, bullet):
+        '''
+        是否撞到了子弹
+        '''
+        
+        # 只要子弹位于敌机的矩形图片内，便认为相撞了
+        if abs(bullet.x - self.x) <  self.image.get_width() / 2\
+        and abs(bullet.y - self.y) <  self.image.get_height() / 2:
+            return True
+        return False
 
