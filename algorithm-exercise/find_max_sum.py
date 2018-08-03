@@ -10,7 +10,7 @@ Created on Tue Jul 31 22:01:19 2018
 
 def find_max_sum_by_force(a):
     '''
-    用暴力方法求解。复杂度为O(n^3)。
+    用暴力方法求解，最朴素的逻辑，三重循环，复杂度为O(n^3)。
     '''
     max_sum = 0
     for i in range(0, len(a)):
@@ -24,7 +24,7 @@ def find_max_sum_by_force(a):
 
 def find_max_sum_by_force2(a):
     '''
-    暴力求解。复杂度为O(n^2)。
+    暴力求解，将三重循环的最内层循环去掉，复杂度为O(n^2)。
     '''
     max_sum = 0
     for i in range(0, len(a)):
@@ -37,7 +37,7 @@ def find_max_sum_by_force2(a):
 
 def find_max_sum_by_force3(a):
     '''
-    暴力求解。复杂度为O(n^2)。
+    暴力求解，提前计算一个累积求和的数组。复杂度为O(n^2)。
     '''
     
     # 先求出从第一个索引出发，到每个索引结束的子数组的和
