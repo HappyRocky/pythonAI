@@ -10,6 +10,7 @@ class Plane():
         self.y = -1 # 飞机中心y坐标
         self.image = pygame.image.load('data/plane.png').convert_alpha()
         self.bullet_launcher = bullet_launcher # 飞机采用的哪种发射器
+        self.has_crash = False # 是否被撞
     
     def move(self, mouse_x, mouse_y):
         '''
@@ -17,6 +18,9 @@ class Plane():
         mouse_x:鼠标x坐标
         mouse_y:鼠标y坐标
         '''
+        if self.has_crash:
+            return
+        
         # 飞机运动
         self.x = mouse_x
         self.y = mouse_y
@@ -28,11 +32,12 @@ class Plane():
         '''
         显示飞机及子弹
         '''
-        # 计算飞机左上角坐标值
-        x = self.x - self.image.get_width() / 2
-        y = self.y - self.image.get_height() / 2
-        # 显示飞机
-        screen.blit(self.image, (x, y))        
+        if not self.has_crash:
+            # 计算飞机左上角坐标值
+            x = self.x - self.image.get_width() / 2
+            y = self.y - self.image.get_height() / 2
+            # 显示飞机
+            screen.blit(self.image, (x, y))        
         
         # 显示子弹
         self.bullet_launcher.show_bullets(screen)

@@ -59,7 +59,20 @@ class EnemyLauncher():
             if not has_hit: # 如果没有被撞
                 new_enemy_list.append(enemy) # 加入到新list中
         self.enemy_list = new_enemy_list
-            
+        
+    def crash(self, plane):
+        '''
+        所有敌机和主机进行判断是否相撞。
+        '''
+        if plane.has_crash:
+            return
+        
+        for enemy in self.enemy_list:
+            if enemy.has_crash(plane): # 如果撞到了
+                self.enemy_list.remove(enemy)
+                plane.has_crash = True
+                return
+        
     def show_enemys(self, screen):
         '''
         将敌机显示在屏幕上

@@ -52,4 +52,16 @@ class Enemy():
         and abs(bullet.y - self.y) <  self.image.get_height() / 2:
             return True
         return False
+    
+    def has_crash(self, plane):
+        '''
+        是否和飞机相撞
+        '''
+        if plane.has_crash:
+            return False
+        
+        if abs(plane.x - self.x) < (self.image.get_width() + plane.image.get_width()) / 2\
+        and abs(plane.y - self.y) < (self.image.get_height() + plane.image.get_height()) / 2:
+            return True
+        return False
 
