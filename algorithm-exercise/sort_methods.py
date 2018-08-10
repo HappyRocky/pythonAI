@@ -48,28 +48,85 @@ def qsort1(a):
     # 开始递归
     qsort1_rec(a, 0, len(a)-1)
     return count
+
+def qsort2(a):
+    '''
+    加强版的快速排序，能够避免元素都相同时退化成O(n^2)的问题。
+    1、随机选择一个值t，固定。
+    2、初始化两个下标i和j，分别从左向右和从右向左扫描，不变式为a[0...i]<=t & a[j...]>=t，直到i和j相遇
+    3、递归 qsort1([0...j-1]) 和 qsort1([j+1...])
+    '''
+    count = 0 # 记录迭代数
+    def qsort2_rec(a, l, u):
+        '''
+        用于递归
+        '''
+        nonlocal count
+        if l >= u:
+            return
+        
+        # 初始化，将 t 定为第一个元素值
+        t = a[l]
+        i = l+1
+        j = u
+        
+        # 遍历
+        while(True):
+            while(i <= u and a[i] < t): # i从左向右扫描，直到 a[i]>=t 停止
+                i += 1
+                count += 1
+            while(j >= l+1 and a[j] > t): # j 从右向左扫描，直到 a[j]<=t 停止
+                j -= 1
+                count += 1
+            if i >= j:
+                break
+            a[i], a[j] = a[j], a[i] # 交换值，则变成了 a[i]<=t，a[j]>=t
+            i += 1 # 一定要有这一句，否则当 a[i]==a[j]==t时，会死循环
+        # 最后一步，交换a[l]和a[j]的值
+        a[j], a[l] = a[l], a[j]
+        # 递归
+        qsort2_rec(a, l, j-1)
+        qsort2_rec(a, j+1, u)
+    
+    # 开始递归
+    qsort2_rec(a, 0, len(a)-1)
+    return count
     
     
 if '__main__' == __name__:
     a = [32,1,456,234,7,23,87,123,456]
-    qsort1(a)
+    qsort2(a)
     print(a)
     
-    # 测试复杂度。结论：qsort1对于随机数组的复杂度为 O(nlogn)，但是对于相同元素的数组，复杂度接近 O(n^2)。
-    # 这是因为，对于随机数组，每次的分界线m很可能是位于中间的，但是对于相同元素的数组，每次的分界线m都是第一个，因此logn退化成了n。
+    # 测试复杂度。
+    # 结论：
+    # 1、qsort1对于随机数组的复杂度为 O(nlogn)，但是对于相同元素的数组，复杂度接近 O(n^2)。这是因为，对于随机数组，每次的分界线m很可能是位于中间的，但是对于相同元素的数组，每次的分界线m都是第一个，因此logn退化成了n。
+    # 2、qsort2对于随机数组和相同元素数组的复杂度均为 O(nlogn)，关键就在于i和j从两边搜索，且遇到等于t的时候也会停下来，因此如果是相同元素数组，就会一步一步进行交换，虽然交换次数很多且显得不必要，但是可以保证最后i与j相遇时是在数组的中间位置。
     n_list = list(range(2, 500))
     n2_list = list(map(lambda x:x*x, n_list))
     nlogn_list = list(map(lambda x:x*math.log2(x), n_list))
-    count_list = []
-    for n in n_list:
-        #a = [0] * n # 相同元素的数组
-        a = np.random.randint(0, 100, n) # 随机数组
-        count = qsort1(a)
-        count_list.append(count)
-    plt.plot(n_list, count_list, 'r-', label='qsort1')
-    plt.plot(n_list, n2_list, 'g-', label='n^2')
-    plt.plot(n_list, nlogn_list, 'b-', label='nlogn')
-    plt.legend()
+    sort_method_list = [qsort1, qsort2] # 所有排序函数
+    figure_count = 0
+    for sort_method in sort_method_list:
+        count_list1 = [] # 相同元素的排序迭代次数
+        count_list2 = [] # 随机元素的排序迭代次数
+        for n in n_list:
+            # 对相同元素数组进行排序
+            a1 = [0] * n
+            count_list1.append(sort_method(a1))
+            # 对随机元素数组进行排序
+            a2 = np.random.randint(0, 100, n)
+            count_list2.append(sort_method(a2))
+        
+        # 画图
+        figure_count += 1
+        plt.figure(figure_count)
+        plt.plot(n_list, n2_list, 'b-', label='n^2') # n^2的曲线
+        plt.plot(n_list, nlogn_list, 'b-', label='nlogn') # nlogn的曲线
+        plt.plot(n_list, count_list1, 'r-', label='same') # 相同元素复杂度曲线
+        plt.plot(n_list, count_list2, 'g-', label='random') # 随机元素复杂度曲线
+        plt.title(sort_method.__name__) # 函数名为title
+        plt.legend()
     
         
         
