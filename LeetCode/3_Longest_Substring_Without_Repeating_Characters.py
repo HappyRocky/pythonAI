@@ -34,11 +34,12 @@ def lengthOfLongestSubstring(s):
             start_idx = scaned_dict[s[i]] + 1 # 将起始位置修改为重复字符第一次出现的位置的右邻
             
         scaned_dict[s[i]] = i # 记录当前字符的位置
-        
+    
+    max_len = max(max_len, len(s) - start_idx) # 这一句必不可少
     return max_len
 
 if '__main__' == __name__:
-    s_list = ['abcabcbb','bbbbb','pwwkew']
+    s_list = ["abcabcbb","bbbbb","pwwkew"," "]
     for s in s_list:
         print(f'输入{s},输出{lengthOfLongestSubstring(s)}')
         
