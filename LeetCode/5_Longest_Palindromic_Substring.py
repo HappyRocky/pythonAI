@@ -126,11 +126,59 @@ def longestPalindrome3(s):
                 last_idx = i
     return s1[last_idx-max_len+1 : last_idx+1]
 
+def longestPalindrome4(s):
+    """
+    :type s: str
+    :rtype: str
+    
+    移动中心法。
+    先假设某个位置为回文字符串的中心，然后查询以此位中心的最长回文字符串。遍历中心，即可找到全局最长子串。
+    时间复杂度为O(n^2)。
+    """
+    if len(s) <= 1:
+        return s
+    
+    max_str = ''
+    
+    # 枚举mid_idx。一个mid_id决定了两个中心位置：mid_idx本身、和右邻之间的分界线。
+    for mid_idx in range(len(s)):
+        
+        # 以mid_idx为中心
+        count = 0  # 从中心向两边慢慢扩张
+        while(True):
+            start_idx = mid_idx-count
+            end_idx = mid_idx+count
+            if s[start_idx] == s[end_idx]:
+                count += 1
+                if end_idx - start_idx + 1 > len(max_str):
+                    max_str = s[start_idx:end_idx+1]
+            else:
+                break
+            if start_idx == 0 or end_idx == len(s)-1:
+                break
+        
+        # 以和右邻之间的分界线为中心
+        if mid_idx == len(s)-1: # 最后一个元素，没有右邻，直接跳过
+            continue
+        count = 0
+        while(True):
+            start_idx = mid_idx - count
+            end_idx = mid_idx + count + 1
+            if s[start_idx] == s[end_idx]:
+                count += 1
+                if end_idx - start_idx + 1 > len(max_str):
+                    max_str = s[start_idx:end_idx+1]
+            else:
+                break
+            if start_idx == 0 or end_idx == len(s)-1:
+                break      
+        
+    return max_str
 
 if '__main__' == __name__:
-    s_list = ["cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"]
+    s_list = ["babad","cbbd"]
     for s in s_list:
-        result = longestPalindrome3(s)
+        result = longestPalindrome4(s)
         print(f'{s}\t{result}')
                 
     
