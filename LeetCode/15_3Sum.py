@@ -49,7 +49,7 @@ def threeSum(nums):
             elif s < 0: # 因此三数之和不够则往右走
                 l += 1
             else: # 因此三数之和过大则往左走
-               r -= 1
+                r -= 1
     return res
 
 if '__main__' == __name__:
