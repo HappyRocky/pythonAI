@@ -194,19 +194,13 @@ def longestPalindrome5(s):
     max_str = ''
     for i in range(1, len(p)-1):
         
-        # 初始化 p[i]
-        if i > mx:
-            p[i] = 0
-        else:
+        if i < mx:
             j = 2 * center - i # i 关于 center 的对称点
             p[i] = min(mx-i, p[j])
         
         # 尝试继续向两边扩展，更新 p[i]
-        try:
-            while ss[i - p[i] - 1] == ss[i + p[i] + 1]: # 不必判断是否溢出，因为首位均有特殊字符，肯定会退出
-                p[i] += 1
-        except:
-            print(i + p[i] + 1)
+        while ss[i - p[i] - 1] == ss[i + p[i] + 1]: # 不必判断是否溢出，因为首位均有特殊字符，肯定会退出
+            p[i] += 1
             
         # 更新中心
         if i + p[i] > mx:
