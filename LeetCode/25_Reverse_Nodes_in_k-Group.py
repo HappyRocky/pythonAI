@@ -95,5 +95,5 @@ def reverseKGroup(head, k):
     
 if '__main__' == __name__:
     head = ListNode([1,2,3,4,5])
-    k = 1
+    k = 2
     print(reverseKGroup(head, k).output())

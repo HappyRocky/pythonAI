@@ -7,7 +7,7 @@ The order of elements can be changed. It doesn't matter what you leave beyond th
 
 给定一个数组和一个常量 val，删除数组中所有等于 val 的元素，返回新数组的长度。
 不要为另外的数组去开辟新的空间，只能修改原数组，空间复杂度为O(1)。
-元素的熟悉怒可以改变。新数组之后的元素无关紧要。
+元素的顺序可以改变。新数组之后的元素无关紧要。
 
 Example 1:
 Given nums = [3,2,2,3], val = 3,
