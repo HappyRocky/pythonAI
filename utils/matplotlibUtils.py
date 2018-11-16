@@ -48,6 +48,9 @@ def plot_function_and_derivative(fun, x_limits, figure_name, point_num = 100):
     plt.grid(True)
     plt.show()
 if __name__ == '__main__':
+    '''
     plot_function_and_derivative(lambda x : 1/(1+math.exp(-x)), [-10, 10], "sigmoid")
     plot_function_and_derivative(lambda x : math.tanh(x), [-10, 10], "tanh")
     plot_function_and_derivative(lambda x : x if x > 0 else 0, [-10, 10], "ReLU")
+    '''
+    plot_function_and_derivative(lambda x : 0.5*math.log((1-x)/x), [0.01, 0.99], "AdaBoost")

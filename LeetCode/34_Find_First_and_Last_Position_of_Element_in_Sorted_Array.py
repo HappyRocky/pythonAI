@@ -31,30 +31,41 @@ def searchRange(nums, target):
         二分法查找nums的l~u之间等于target的元素，返回起始和结束位置。
         如果不存在，则返回 (max_len, -1)
         '''
-        if u - l <= 1:
+        # 递归结束条件1
+        if u - l <= 1: # 数组长度小于等于2
+            # 初始化首尾位置
             start = max_len
             end = -1
+            # 依次与目标值进行比较
             for i in range(l, u+1):
                 if nums[i] == target:
                     start = min(start, i)
                     end = max(end, i)
             return (start, end)
-        if nums[l] == nums[u]:
+        
+        # 递归结束条件2
+        if nums[l] == nums[u]: # 数组首尾元素相等，则中间元素也都相等
             if nums[l] == target:
                 return (l, u)
             else:
                 return (max_len, -1)
-            
+        
+        # 开始二分法
         mid = int((l+u)/2)
-        if nums[mid] == target:
+        if nums[mid] == target: # 中位数等于目标值
+            # 寻找左半部分的首尾位置
             start1, end1 = binary_search(nums, l, mid, target, max_len)
+            # 寻找右半部分的首尾位置
             start2, end2 = binary_search(nums, mid, u, target, max_len)
+            # 两个首尾位置比较大小
             start = min(start1, start2)
             end = max(end1, end2)
             return (start, end)
-        elif nums[mid] > target:
+        elif nums[mid] > target: # 目标值小于中位数
+            # 寻找左半部分的首尾位置
             return binary_search(nums, l, mid, target, max_len)
         else:
+            # 否则，寻找右半部分的首尾位置
             return binary_search(nums, mid, u, target, max_len)
     
     if not nums or target < nums[0] or target > nums[-1]:
