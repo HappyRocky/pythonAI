@@ -7,7 +7,7 @@ Note:
 All numbers (including target) will be positive integers.
 The solution set must not contain duplicate combinations.
 
-给定一个无重复元素的数组 candidates 和一个目标数 target，找到 candidates 中所有可以使数字之和等于 target 的组合。
+给定一个数组 candidates 和一个目标数 target，找到 candidates 中所有可以使数字之和等于 target 的组合。
 数组中的每个元素只可以使用一次。
 备注：
 数组的元素和目标值都是正数。

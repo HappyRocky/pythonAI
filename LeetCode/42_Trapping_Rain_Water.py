@@ -11,7 +11,7 @@ Input: [0,1,0,2,1,0,1,3,2,1,2,1]
 Output: 6
 
 '''
-
+import matplotlib.pyplot as plt
 def trap(height):
     """
     :type height: List[int]
@@ -82,6 +82,16 @@ def trap2(height):
         
 if '__main__' == __name__:
     height = [0,1,0,2,1,0,1,3,2,1,2,1]
+    
+    # 画出柱状图
+    X = list(range(0, len(height)))
+    Y = height
+    plt.bar(X, Y, 1)
+    plt.ylim(0, max(Y)+1) 
+    for a,b in zip(X,Y):
+        plt.text(a, b+0.05, '%.0f' % b, ha='center', va= 'bottom',fontsize=11) 
+    plt.show()
+    
     print(trap2(height))
     
     

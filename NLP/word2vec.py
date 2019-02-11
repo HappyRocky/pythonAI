@@ -26,5 +26,5 @@ model.wv.save_word2vec_format('outp2', binary=False)
 
 
 # 进行相关性比较
-print(model.wv.similarity('you','go'))
+print(model.wv.similarity('home','go'))
 print(model.wv.__getitem__('jumps'))

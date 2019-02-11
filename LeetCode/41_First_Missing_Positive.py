@@ -67,9 +67,32 @@ def firstMissingPositive2(nums):
             return i+1
     return l+1
 
+def firstMissingPositive3(nums):
+    """
+    :type nums: List[int]
+    :rtype: int
+    改进版。
+    不再额外创建一个新数组，而是将 nums 当做新数组。
+    注意，由于 nums 之前便有数据，因此在修改 nums 值时，需要将原来的值保存下来，即与当前指针的值互换位置。
+    """
+    
+    l = len(nums)
+    if l == 0:
+        return 1
+    
+    for i in range(l):
+        tmp = nums[i]
+        while tmp != 'a' and tmp > 0 and tmp <= l:
+            nums[tmp-1], tmp = 'a', nums[tmp-1]
+    
+    for i in range(l):
+        if nums[i] != 'a':
+            return i+1
+    return l+1
+
 if '__main__' == __name__:
     nums = [3,4,-1,1]
-    print(firstMissingPositive2(nums))
+    print(firstMissingPositive3(nums))
         
     
     

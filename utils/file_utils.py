@@ -45,10 +45,33 @@ def output_filelist(dirpaths, outputfile):
                 f.write(file)
         print('%s下的文件名已输出至%s' % (dirpaths, outputfile))
     
+import xlwt
+def change_txt_to_excel(input_file, output_file, gap='\t'):
+    '''
+    将一个txt文档转为excel表格
+    '''
+    
+    workbook = xlwt.Workbook(encoding = 'utf-8')
+    worksheet = workbook.add_sheet('My Worksheet')
+    line_count = 0
+    with open(input_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            splits = line.strip().split('\t')
+            if not splits:
+                continue
+            for i in range(len(splits)):
+                worksheet.write(line_count, i, label = splits[i])
+            line_count += 1
+    workbook.save(output_file)
     
 if __name__ == '__main__':
+    '''
     filepath = "C:/Users/gongyanshang1/Desktop/jd_val_bad_img_4_18.txt"
     targetpath = 'C:/Users/gongyanshang1/Desktop/jd_val_bad_img_4_18_select'
     sourcepaths = ['C:/Users/gongyanshang1/Desktop/jd_val_good_img_4_18', 'C:/Users/gongyanshang1/Desktop/jd_val_bad_img_4_18']
     copy_by_filelist(filepath, targetpath, sourcepaths)
-
+    '''
+    
+    input_file = 'wid_count_top5000_item'
+    output_file = 'wid_count_top5000_item.xls'
+    change_txt_to_excel(input_file, output_file, gap='\t')
