@@ -1,0 +1,11 @@
+.spyproject/
+*__pycache__*
+CNN/mnist/
+image_process/complex/
+image_process/simple/
+*.jpg
+.idea/
+*/snapshot/*
+*/.ipynb_checkpoints/*
+keras/data/
+*.h5
