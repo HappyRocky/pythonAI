@@ -20,6 +20,7 @@ Output: "bb"
 
 """
 
+
 def longestPalindrome(s):
     """
     :type s: str
@@ -28,7 +29,7 @@ def longestPalindrome(s):
     暴力求解。扫描所有子字符串，分别判断是否为回文字符串，返回最长的回文字符串。
     时间复杂度为O(n^3)
     """
-    
+
     def is_palindromic(a):
         '''
         a是否为回文字符串
@@ -37,14 +38,15 @@ def longestPalindrome(s):
         if a == b:
             return True
         return False
-    
+
     max_substr = ''
     for i in range(len(s)):
         for j in range(i, len(s)):
-            substr = s[i:j+1]
+            substr = s[i:j + 1]
             if is_palindromic(substr) and len(substr) > len(max_substr):
                 max_substr = substr
     return max_substr
+
 
 def longestPalindrome2(s):
     """
@@ -56,10 +58,10 @@ def longestPalindrome2(s):
     但需要从后向前遍历，这样才会用得到提前存储的结果。
     时间复杂度为O(n^2)。
     """
-    
+
     if len(s) <= 1:
         return s
-    
+
     def is_palindromic(a, dic):
         '''
         a是否为回文字符串
@@ -79,15 +81,16 @@ def longestPalindrome2(s):
                     result = True
         dic[a] = result
         return result
-    
+
     max_substr = ''
     dic = dict()
-    for i in range(len(s)-1, -1, -1):
+    for i in range(len(s) - 1, -1, -1):
         for j in range(i, len(s)):
-            substr = s[i:j+1]
+            substr = s[i:j + 1]
             if is_palindromic(substr, dic) and len(substr) > len(max_substr):
                 max_substr = substr
     return max_substr
+
 
 def longestPalindrome3(s):
     """
@@ -101,11 +104,11 @@ def longestPalindrome3(s):
     """
     if len(s) <= 1:
         return s
-    
+
     # 翻转
     s1 = s
     s2 = s[::-1]
-    
+
     # 矩阵，高为s1长度，宽为s2长度
     flag_matrix = []
     max_len = 0
@@ -115,7 +118,7 @@ def longestPalindrome3(s):
         for j in range(len(s2)):
             if s1[i] == s2[j]:
                 if i > 0 and j > 0:
-                    flag_matrix[i].append(flag_matrix[i-1][j-1] + 1)
+                    flag_matrix[i].append(flag_matrix[i - 1][j - 1] + 1)
                 else:
                     flag_matrix[i].append(1)
             else:
@@ -124,7 +127,8 @@ def longestPalindrome3(s):
             if flag_matrix[i][j] > max_len and i - flag_matrix[i][j] + 1 == len(s2) - j - 1:
                 max_len = max(max_len, flag_matrix[i][j])
                 last_idx = i
-    return s1[last_idx-max_len+1 : last_idx+1]
+    return s1[last_idx - max_len + 1: last_idx + 1]
+
 
 def longestPalindrome4(s):
     """
@@ -137,43 +141,44 @@ def longestPalindrome4(s):
     """
     if len(s) <= 1:
         return s
-    
+
     max_str = ''
-    
+
     # 枚举mid_idx。一个mid_id决定了两个中心位置：mid_idx本身、和右邻之间的分界线。
     for mid_idx in range(len(s)):
-        
+
         # 以mid_idx为中心
         count = 0  # 从中心向两边慢慢扩张
-        while(True):
-            start_idx = mid_idx-count
-            end_idx = mid_idx+count
+        while (True):
+            start_idx = mid_idx - count
+            end_idx = mid_idx + count
             if s[start_idx] == s[end_idx]:
                 count += 1
                 if end_idx - start_idx + 1 > len(max_str):
-                    max_str = s[start_idx:end_idx+1]
+                    max_str = s[start_idx:end_idx + 1]
             else:
                 break
-            if start_idx == 0 or end_idx == len(s)-1:
+            if start_idx == 0 or end_idx == len(s) - 1:
                 break
-        
+
         # 以和右邻之间的分界线为中心
-        if mid_idx == len(s)-1: # 最后一个元素，没有右邻，直接跳过
+        if mid_idx == len(s) - 1:  # 最后一个元素，没有右邻，直接跳过
             continue
         count = 0
-        while(True):
+        while (True):
             start_idx = mid_idx - count
             end_idx = mid_idx + count + 1
             if s[start_idx] == s[end_idx]:
                 count += 1
                 if end_idx - start_idx + 1 > len(max_str):
-                    max_str = s[start_idx:end_idx+1]
+                    max_str = s[start_idx:end_idx + 1]
             else:
                 break
-            if start_idx == 0 or end_idx == len(s)-1:
-                break      
-        
+            if start_idx == 0 or end_idx == len(s) - 1:
+                break
+
     return max_str
+
 
 def longestPalindrome5(s):
     """
@@ -185,39 +190,37 @@ def longestPalindrome5(s):
     """
     if len(s) <= 1:
         return s
-    
+
     # 每个字符之间插入 \1
     ss = '\0\1' + '\1'.join([x for x in s]) + '\1\2'
     p = [0] * len(ss)
     center = 0
     mx = 0
     max_str = ''
-    for i in range(1, len(p)-1):
-        
+    for i in range(1, len(p) - 1):
+
         if i < mx:
-            j = 2 * center - i # i 关于 center 的对称点
-            p[i] = min(mx-i, p[j])
-        
+            j = 2 * center - i  # i 关于 center 的对称点
+            p[i] = min(mx - i, p[j])
+
         # 尝试继续向两边扩展，更新 p[i]
-        while ss[i - p[i] - 1] == ss[i + p[i] + 1]: # 不必判断是否溢出，因为首位均有特殊字符，肯定会退出
+        while ss[i - p[i] - 1] == ss[i + p[i] + 1]:  # 不必判断是否溢出，因为首位均有特殊字符，肯定会退出
             p[i] += 1
-            
+
         # 更新中心
         if i + p[i] > mx:
             mx = i + p[i]
             center = i
-            
+
         # 更新最长串
         if 1 + 2 * p[i] > len(max_str):
-            max_str = ss[i - p[i] : i + p[i] + 1]
-            
+            max_str = ss[i - p[i]: i + p[i] + 1]
+
     return max_str.replace('\1', '')
-        
+
 
 if '__main__' == __name__:
-    s_list = ["babad","cbbd"]
+    s_list = ["babad", "abb"]
     for s in s_list:
         result = longestPalindrome5(s)
         print(f'{s}\t{result}')
-                
-    

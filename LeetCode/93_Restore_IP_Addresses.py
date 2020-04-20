@@ -29,7 +29,7 @@ def restoreIpAddresses(s: str) -> list:
         # 继续划分
         if len(remain_str) >= 1:
             fun(cur_list + [remain_str[0]], remain_str[1:], result_list)
-            if remain_str[0] != '0':
+            if remain_str[0] != '0': # 不能以0开头，否则划分失败
                 if len(remain_str) >= 2:
                     fun(cur_list + [remain_str[:2]], remain_str[2:], result_list)
                 if len(remain_str) >= 3 and int(remain_str[:3]) <= 255:

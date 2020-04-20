@@ -17,21 +17,23 @@ return [0, 1].
 
 """
 
+
 def twoSum(nums, target):
     """
     :type nums: List[int]
     :type target: int
     :rtype: List[int]
     """
-    
-    match_idx_dict = dict() # key=差值,value=下标
+
+    match_idx_dict = dict()  # key=差值,value=下标
     for i in range(len(nums)):
         num = nums[i]
         if num not in match_idx_dict:
-            match_idx_dict[target-num] = i
+            match_idx_dict[target - num] = i
         else:
             return [match_idx_dict[num], i]
     return None
+
 
 if '__main__' == __name__:
     nums = [2, 7, 11, 15]
