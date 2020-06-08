@@ -7,10 +7,10 @@ import glob
 import random
 import shutil
 
-dataset_dir = os.path.join("..", "..", "Data", "cifar-10-png", "raw_test")
-train_dir = os.path.join("..", "..", "Data", "train")
-valid_dir = os.path.join("..", "..", "Data", "valid")
-test_dir = os.path.join("..", "..", "Data", "test")
+dataset_dir = os.path.join("", "..", "Data", "cifar-10-png", "raw_test")
+train_dir = os.path.join("", "..", "Data", "train")
+valid_dir = os.path.join("", "..", "Data", "valid")
+test_dir = os.path.join("", "..", "Data", "test")
 
 # 划分比例
 train_per = 0.8

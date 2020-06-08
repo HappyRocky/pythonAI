@@ -11,3 +11,4 @@ keras/data/
 *.h5
 .DS_Store
 PyTorch_Tutorial/Data/
+PyTorch_Tutorial/Result/

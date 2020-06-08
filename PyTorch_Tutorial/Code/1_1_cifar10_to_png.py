@@ -8,9 +8,9 @@ import numpy as np
 import os
 import pickle
 
-data_dir = os.path.join('..', '..', 'Data', 'cifar-10-batches-py')
-train_o_dir = os.path.join("..", "..", "Data", "cifar-10-png", "raw_train")
-test_o_dir = os.path.join("..", "..", "Data", "cifar-10-png", "raw_test")
+data_dir = os.path.join('', '..', 'Data', 'cifar-10-batches-py')
+train_o_dir = os.path.join("", "..", "Data", "cifar-10-png", "raw_train")
+test_o_dir = os.path.join("", "..", "Data", "cifar-10-png", "raw_test")
 
 Train = False  # 不解压训练集，仅解压测试集
 

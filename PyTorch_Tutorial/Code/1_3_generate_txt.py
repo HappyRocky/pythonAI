@@ -4,11 +4,11 @@
 """
 import os
 
-train_txt_path = os.path.join("..", "..", "Data", "train.txt")
-train_dir = os.path.join("..", "..", "Data", "train")
+train_txt_path = os.path.join("..", "Data", "train.txt")
+train_dir = os.path.join("..", "Data", "train")
 
-valid_txt_path = os.path.join("..", "..", "Data", "valid.txt")
-valid_dir = os.path.join("..", "..", "Data", "valid")
+valid_txt_path = os.path.join("..", "Data", "valid.txt")
+valid_dir = os.path.join("..", "Data", "valid")
 
 
 def gen_txt(txt_path, img_dir):
