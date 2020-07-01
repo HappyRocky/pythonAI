@@ -12,3 +12,4 @@ keras/data/
 .DS_Store
 PyTorch_Tutorial/Data/
 PyTorch_Tutorial/Result/
+*.pkl
