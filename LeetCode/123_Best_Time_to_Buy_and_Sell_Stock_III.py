@@ -45,6 +45,43 @@ def maxProfit(prices: list) -> int:
         profit2 = max(profit2, price - cost2)
     return profit2
 
+def maxProfit2(prices: list) -> int:
+    """
+    递归，深度优先遍历
+    此过程的状态可以用3个变量来表示：
+    index：表示是哪一天
+    status：表示当前状态是买入还是卖出，0是卖出，1是买入
+    k：表示已经交易了几次
+    状态之间的转移可以用3个行动表示：
+    不动、买、卖
+    缺点是时间复杂度高，本质上是把所有可能性都遍历了一遍。
+    """
+    memo = dict()
+    def dfs(index, status, k):
+        """
+        深度优先遍历
+        表示从当前状态开始，在接下来的所有天内，能够获得的最大利润
+        """
+        # 递归停止条件，已经到了最后一天，或者完成了2次交易
+        if index == len(prices) or k >= 2:
+            return 0
+        if (index, status, k) in memo:
+            return memo[(index, status, k)]
+        # 无论是买入还是卖出状态，都可以选择"不动"
+        a = dfs(index + 1, status, k)
+        # 如果是买入状态，则还可以选择卖出
+        if status == 1:
+            b = dfs(index + 1, 0, k + 1) + prices[index]
+        else:  # 如果是卖出状态，则还可以选择买入
+            b = dfs(index + 1, 1, k) - prices[index]
+        result = max(a, b)
+        memo[(index, status, k)] = result
+        return result
+    return dfs(0, 0, 0)
+
+
+
+
 if '__main__' == __name__:
-    prices = [3]
-    print(maxProfit(prices))
+    prices = [3,3,5,0,0,3,1,4]
+    print(maxProfit2(prices))

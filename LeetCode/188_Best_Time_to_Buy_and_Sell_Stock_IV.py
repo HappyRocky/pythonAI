@@ -72,8 +72,67 @@ class Solution:
                 global_list[j] = max(global_list[j], local_list[j])
         return global_list[-1]
 
+    def maxProfit3(self, k: int, prices: list) -> int:
+        """
+        动态规划
+        dp[i][j][0]：表示第i天交易了j次时卖出后的累计最大利润
+        dp[i][j][1]：表示第i天交易了j次时买入后的累计最大利润
+        迭代公式：
+        dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j-1][1]+price[i])
+        dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j][0]-price[i])
+        """
+        dp = [[[0, 0] for _ in range(k+1)] for __ in range(len(prices))]
+
+        # 第一天，初始化：手里有股票则为 -price，手里没股票则收益为 0
+        for j in range(k+1):
+            dp[0][j][1] = - prices[0]
+
+        # 第二天及以后，迭代
+        for i in range(1, len(prices)):
+            price = prices[i]
+            for j in range(0, k+1):
+                dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j][0] - price)
+                print('第{}天，交易{}次，持有股票，收益为{}'.format(i + 1, j, dp[i][j][1]))
+                if j > 0:
+                    dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j-1][1] + price)
+                print('第{}天，交易{}次，清空股票，收益为{}'.format(i + 1, j, dp[i][j][0]))
+        return dp[-1][-1][0]
+
+
+    def maxProfit4(self, k: int, prices: list) -> int:
+        """
+        动态规划，与上面相同。
+        由于等式左边都是i，等式右边都是i-1，所以可以将三维数组简化为二维，迭代公式为：
+        dp[j][1] = max(dp[j][1], dp[j][0]-price)
+        dp[j][0] = max(dp[j][0], dp[j-1][1]+price)
+        但是j的遍历需要倒叙，因为第二个公式取 dp[j-1][1] 的时候，如果是正序，那么上一次循环刚刚计算了第 i 天的 dp[j-1][1]，
+        但我们想要的是第 i-1 天的 dp[j-1][1]，所以倒叙遍历可以避免 j-1 被覆盖。
+        （假如迭代公式中是 j+1， 而不是 j-1，那么则必须用正序。）
+        """
+        if k == 0 or len(prices) <= 1:
+            return 0
+        if k > len(prices) / 2:  # 最大交易数超过天数的一半，则等价于无限交易数，问题等价于第 122 题。
+            result = 0
+            for i in range(1, len(prices)):
+                if prices[i] > prices[i-1]:
+                    result += prices[i] - prices[i-1]
+            return result
+
+        dp = [[0, 0] for _ in range(k+1)]
+
+        # 第一天，初始化：手里有股票则为 -price，手里没股票则收益为 0
+        for j in range(k+1):
+            dp[j][1] = - prices[0]
+
+        # 第二天及以后，迭代
+        for price in prices[1:]:
+            for j in range(k, -1, -1):
+                dp[j][1] = max(dp[j][1], dp[j][0] - price)
+                if j > 0:
+                    dp[j][0] = max(dp[j][0], dp[j-1][1] + price)
+        return dp[-1][0]
+
 
 if '__main__' == __name__:
-    prices = [3, 2, 6, 5, 0, 3]
-    k = 2
-    print(Solution().maxProfit2(k, prices))
+    k, prices = 2,  [3,3,5,0,0,3,1,4]
+    print(Solution().maxProfit3(k, prices))

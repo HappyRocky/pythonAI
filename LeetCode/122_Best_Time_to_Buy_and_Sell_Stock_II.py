@@ -44,8 +44,18 @@ def maxProfit(prices: list) -> int:
             min_price = prices[i]
     return result
 
+def maxProfit2(prices: list) -> int:
+    """
+    只要遇到 prices[i] > prices[i-1] 的情况，便考虑进行一次买卖，在i-1买入，在i卖出。
+    """
+    result = 0
+    for i in range(1, len(prices)):
+        if prices[i] > prices[i-1]:
+            result += prices[i] - prices[i-1]
+    return result
+
 if '__main__' == __name__:
     prices = [1,2,3,4,5]
-    print(maxProfit(prices))
+    print(maxProfit2(prices))
     
     
